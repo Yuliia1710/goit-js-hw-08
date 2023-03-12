@@ -5,6 +5,8 @@ import throttle from 'lodash.throttle';
 const iframe = document.querySelector('iframe');
 const player = new Player(iframe);
 
+isCurrentTime();
+
 player.on(
   'timeupdate',
   throttle(function (data) {
@@ -13,8 +15,11 @@ player.on(
   }, 1000)
 );
 
-const currentTimeBeforeReload = JSON.parse(
-  localStorage.getItem('videoplayer-current-time')
-);
-console.log(currentTimeBeforeReload.second);
-player.setCurrentTime(currentTimeBeforeReload.seconds);
+function isCurrentTime() {
+  const currentTimeBeforeReload = JSON.parse(
+    localStorage.getItem('videoplayer-current-time')
+  );
+  if (currentTimeBeforeReload) {
+    player.setCurrentTime(currentTimeBeforeReload.seconds);
+  }
+}
